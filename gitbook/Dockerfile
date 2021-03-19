@@ -30,10 +30,11 @@ RUN apt-get update \
   && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
   && apt-get update && apt-get install -y google-chrome-unstable --no-install-recommends
 
-COPY ./test-e2e.sh /tmp
-RUN cd /tmp && bash /tmp/test-e2e.sh
-
+ENV QTWEBENGINE_DISABLE_SANDBOX 1
 RUN apt-get install -y locales locales-all
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
+
+COPY ./test-e2e.sh /tmp
+RUN cd /tmp && bash /tmp/test-e2e.sh

@@ -6,4 +6,6 @@ echo $PWD
 mkdir dist
 gitbook epub ./ dist/koa-design.epub
 gitbook mobi ./ dist/koa-design.mobi
-# gitbook pdf ./ dist/koa-design.pdf
+gitbook pdf ./ dist/koa-design.pdf
+
+ls -lh -R dist
