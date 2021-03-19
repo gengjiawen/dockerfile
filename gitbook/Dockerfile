@@ -14,13 +14,26 @@ RUN apt update && \
         curl
 
 RUN apt-get install -y npm && \
-      npm i -g n && \
+      npm i -g n yarn && \
       n latest
-RUN npm i -g yarn
 
-RUN npm i -g gitbook-cli 
-RUN n 8
+RUN npm i -g gengjiawen/gitbook-cli 
 RUN npx gitbook fetch 3.2.3
 RUN npm install -g gitbook-summary
 
 RUN sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+
+# pdf deps
+RUN apt-get update \
+  && apt-get install -y apt-transport-https \
+  && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
+  && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
+  && apt-get update && apt-get install -y google-chrome-unstable --no-install-recommends
+
+COPY ./test-e2e.sh /tmp
+RUN cd /tmp && bash /tmp/test-e2e.sh
+
+RUN apt-get install -y locales locales-all
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
