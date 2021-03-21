@@ -13,13 +13,14 @@ RUN apt update && \
         wget \
         curl
 
+RUN apt-get install -y locales locales-all
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
 RUN apt-get install -y npm && \
       npm i -g n yarn && \
       n latest
-
-RUN npm i -g gengjiawen/gitbook-cli 
-RUN npx gitbook fetch 3.2.3
-RUN npm install -g gitbook-summary
 
 RUN sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 
@@ -31,10 +32,10 @@ RUN apt-get update \
   && apt-get update && apt-get install -y google-chrome-unstable --no-install-recommends
 
 ENV QTWEBENGINE_DISABLE_SANDBOX 1
-RUN apt-get install -y locales locales-all
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
+
+RUN npm i -g gengjiawen/gitbook-cli 
+RUN npx gitbook fetch 3.2.3
+RUN npm install -g gitbook-summary
 
 COPY ./test-e2e.sh /tmp
 RUN cd /tmp && bash /tmp/test-e2e.sh
