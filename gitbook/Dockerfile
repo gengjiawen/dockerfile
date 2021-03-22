@@ -22,8 +22,6 @@ RUN apt-get install -y npm && \
       npm i -g n yarn && \
       n latest
 
-RUN sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
-
 # pdf deps
 RUN apt-get update \
   && apt-get install -y apt-transport-https \
@@ -32,6 +30,8 @@ RUN apt-get update \
   && apt-get update && apt-get install -y google-chrome-unstable --no-install-recommends
 
 ENV QTWEBENGINE_DISABLE_SANDBOX 1
+
+RUN sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 
 RUN npm i -g gengjiawen/gitbook-cli 
 RUN npx gitbook fetch 3.2.3
