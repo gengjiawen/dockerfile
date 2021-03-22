@@ -24,10 +24,10 @@ RUN apt-get install -y npm && \
 
 # pdf deps
 RUN apt-get update \
-  && apt-get install -y apt-transport-https \
+  && apt-get install -y gnupg apt-transport-https \
   && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
   && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
-  && apt-get update && apt-get install -y google-chrome-unstable --no-install-recommends
+  && apt-get update && apt-get install -y google-chrome-stable --no-install-recommends
 
 ENV QTWEBENGINE_DISABLE_SANDBOX 1
 
@@ -37,5 +37,6 @@ RUN npm i -g gengjiawen/gitbook-cli
 RUN npx gitbook fetch 3.2.3
 RUN npm install -g gitbook-summary
 
+RUN apt-get install -y fonts-noto fonts-noto-cjk
 COPY ./test-e2e.sh /tmp
 RUN cd /tmp && bash /tmp/test-e2e.sh
