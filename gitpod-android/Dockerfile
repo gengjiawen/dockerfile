@@ -1,4 +1,4 @@
-FROM reactnativecommunity/react-native-android:5.2
+FROM reactnativecommunity/react-native-android
 
 # Install custom tools, runtimes, etc.
 # For example "bastet", a command-line tetris clone:
@@ -6,4 +6,3 @@ FROM reactnativecommunity/react-native-android:5.2
 #
 
 RUN apt update && apt install fish -y
-RUN chmod 777 -R /opt/android
