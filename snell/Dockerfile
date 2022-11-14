@@ -1,7 +1,4 @@
-FROM ubuntu
+FROM geekdada/snell-server:3.0.1
 
-RUN apt update && apt install curl unzip -y
+COPY start.sh /start.sh
 
-RUN curl https://dl.nssurge.com/snell/snell-server-v4.0.0-linux-amd64.zip -o /tmp/snell.zip \
-    && unzip -d /usr/bin /tmp/snell.zip
- 
