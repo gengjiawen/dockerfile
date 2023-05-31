@@ -19,7 +19,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 RUN apt-get install -y npm && \
-      npm i -g n yarn && \
+      npm i -g n yarn pnpm && \
       n latest
 
 # pdf deps
