@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -23,20 +23,24 @@ RUN apt-get install -y npm && \
       n latest
 
 # pdf deps
-RUN apt-get update \
-  && apt-get install -y gnupg apt-transport-https \
-  && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - \
-  && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list \
-  && apt-get update && apt-get install -y google-chrome-stable --no-install-recommends
+RUN sudo apt-get update \
+  && sudo apt-get install -y gnupg apt-transport-https \
+  && curl -sSL https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add - \
+  && echo "deb [arch=amd64] https://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list \
+  && sudo apt update \
+  && sudo apt-get install -y google-chrome-stable --no-install-recommends
+
 
 ENV QTWEBENGINE_DISABLE_SANDBOX 1
 
+RUN apt install libopengl0 libxcb-cursor0 -y
 RUN sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+RUN apt-get install -y fonts-noto fonts-noto-cjk
 
-RUN npm i -g gengjiawen/gitbook-cli 
-RUN npx gitbook fetch 3.2.3
 RUN npm install -g gitbook-summary
 
-RUN apt-get install -y fonts-noto fonts-noto-cjk
+ENV t 1
+RUN npm i -g gengjiawen/gitbook-cli 
+
 COPY ./test-e2e.sh /tmp
 RUN cd /tmp && bash /tmp/test-e2e.sh
