@@ -1,4 +1,4 @@
 #!/bin/bash
 set -ex
 docker build -t ubuntu_test .
-docker run -it ubuntu_test fish
+docker run -it -v "$(pwd)":/pwd -w /pwd ubuntu_test fish
